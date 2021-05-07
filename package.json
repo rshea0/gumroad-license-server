@@ -1,0 +1,16 @@
+{
+  "name": "enjinn-license-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "License server for ENJINN",
+  "author": "SHAYDED <shayded@shayded.com> (http://shayded.com)",
+  "homepage": "https://github.com/rshea0/enjinn-license-server#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rshea0/enjinn-license-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rshea0/enjinn-license-server/issues"
+  },
+  "scripts": {}
+}
