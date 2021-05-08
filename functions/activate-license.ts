@@ -78,12 +78,14 @@ async function activateLicense(input: Input): Promise<HandlerResponse> {
   return jsonResponse<Output>(200, { signedLicense });
 }
 
+const LICENSE_DELIMITER = '|';
+
 function signLicense(license: GumroadLicense): string {
   const privateKey = env.LICENSE_PRIVATE_KEY.replace(/_/g, '\n');
   const rsa = new NodeRSA(privateKey);
   const sig = rsa.sign(JSON.stringify(license), 'base64');
 
-  return [license.purchase.license_key, sig].join('|');
+  return [license.purchase.license_key, sig].join(LICENSE_DELIMITER);
 }
 
 function jsonResponse<T = object>(
