@@ -1,3 +1,6 @@
+[build]
+  command = "npm run build"
+
 [build.environment]
   GUMROAD_API = "https://api.grumroad.com/v2"
   GUMROAD_PRODUCT_ID = "enjinn"
