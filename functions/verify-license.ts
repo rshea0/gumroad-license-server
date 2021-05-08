@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import NodeRSA from 'node-rsa';
 import { URLSearchParams } from 'url';
 
-const env = process.env;
+import env from '../env.json';
 
 interface Input {
   licenseKey: string;

@@ -12,7 +12,9 @@
   "bugs": {
     "url": "https://github.com/rshea0/enjinn-license-server/issues"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
   "dependencies": {
     "@netlify/functions": "0.7.2",
     "ajv": "8.2.0",
