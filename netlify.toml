@@ -1,0 +1,3 @@
+[build.environment]
+  GUMROAD_API = "https://api.grumroad.com/v2"
+  GUMROAD_PRODUCT_ID = "vxJlA"
