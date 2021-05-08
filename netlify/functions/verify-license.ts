@@ -11,7 +11,7 @@ interface Input {
 }
 
 interface Output {
-  signedLicenseKey: string;
+  signedLicense: string;
 }
 
 interface GumroadLicense {
@@ -70,9 +70,9 @@ async function verifyLicense(input: Input): Promise<HandlerResponse> {
   }
 
   const license: GumroadLicense = await res.json();
-  const signedLicenseKey = signLicense(license);
+  const signedLicense = signLicense(license);
 
-  return jsonResponse<Output>(200, { signedLicenseKey });
+  return jsonResponse<Output>(200, { signedLicense });
 }
 
 function signLicense(license: GumroadLicense): string {
