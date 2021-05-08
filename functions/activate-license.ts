@@ -51,10 +51,10 @@ export const handler: Handler = async event => {
     });
   }
 
-  return verifyLicense(input);
+  return activateLicense(input);
 };
 
-async function verifyLicense(input: Input): Promise<HandlerResponse> {
+async function activateLicense(input: Input): Promise<HandlerResponse> {
   const res = await fetch(`${env.GUMROAD_API}/licenses/verify`, {
     method: 'POST',
     body: new URLSearchParams({
