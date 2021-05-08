@@ -17,7 +17,10 @@ interface Output {
 interface GumroadLicense {
   success: boolean;
   uses: number;
-  purchase: object;
+  purchase: {
+    [name: string]: any;
+    license_key: string;
+  };
 }
 
 const INPUT_SCHEMA: JSONSchemaType<Input> = {
@@ -78,8 +81,9 @@ async function activateLicense(input: Input): Promise<HandlerResponse> {
 function signLicense(license: GumroadLicense): string {
   const privateKey = env.LICENSE_PRIVATE_KEY.replace(/_/g, '\n');
   const rsa = new NodeRSA(privateKey);
+  const sig = rsa.sign(JSON.stringify(license), 'base64');
 
-  return rsa.sign(JSON.stringify(license), 'base64');
+  return [license.purchase.license_key, sig].join('|');
 }
 
 function jsonResponse<T = object>(
