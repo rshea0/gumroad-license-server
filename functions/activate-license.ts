@@ -84,9 +84,10 @@ const LICENSE_DELIMITER = '|';
 function signLicense(license: GumroadLicense): string {
   const privateKey = env.LICENSE_PRIVATE_KEY.replace(/_/g, '\n');
   const rsa = new NodeRSA(privateKey);
-  const sig = rsa.sign(JSON.stringify(license), LICENSE_SIG_ENCODING);
+  const licenseKey = license.purchase.license_key;
+  const sig = rsa.sign(licenseKey, LICENSE_SIG_ENCODING);
 
-  return [license.purchase.license_key, sig].join(LICENSE_DELIMITER);
+  return [licenseKey, sig].join(LICENSE_DELIMITER);
 }
 
 function jsonResponse<T = object>(
