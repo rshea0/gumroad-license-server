@@ -1,10 +1,18 @@
 import { Handler } from '@netlify/functions';
 
-import { signLicense } from '../lib/sign-license';
+import { signLicense, stringifyLicense } from '../lib/sign-license';
+import { License } from '../lib/types';
 import { jsonResponse } from '../lib/utils';
 
 interface Output {
+  license: License;
+  // LEGACY: v1.x
   signedLicense: string;
+}
+
+interface TrialLicenseData {
+  isTrial: true;
+  expDate: string;
 }
 
 export const handler: Handler = async event => {
@@ -14,19 +22,27 @@ export const handler: Handler = async event => {
     });
   }
 
+  const license = createTrialLicense();
+
   return jsonResponse<Output>(200, {
-    signedLicense: createTrialLicense(),
+    license,
+    signedLicense: stringifyLicense(license),
   });
 };
 
-const TRIAL_PREFIX = 'TRIAL:';
 const TRIAL_DAYS = 7;
 
-function createTrialLicense(): string {
+function createTrialLicense(): License {
   const expDate = new Date();
   expDate.setDate(expDate.getDate() + TRIAL_DAYS);
 
-  const license = TRIAL_PREFIX + new Date().toISOString();
+  const licenseData: TrialLicenseData = {
+    isTrial: true,
+    expDate: expDate.toISOString(),
+  };
 
-  return signLicense(license);
+  return {
+    ...signLicense(licenseData),
+    isTrial: true,
+  };
 }

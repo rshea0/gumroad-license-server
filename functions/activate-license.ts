@@ -4,7 +4,8 @@ import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
 import env from '../env.json';
-import { signLicense } from '../lib/sign-license';
+import { signLicense, stringifyLicense } from '../lib/sign-license';
+import { License } from '../lib/types';
 import { jsonResponse } from '../lib/utils';
 
 interface Input {
@@ -12,6 +13,8 @@ interface Input {
 }
 
 interface Output {
+  license: License;
+  // LEGACY: v1.x
   signedLicense: string;
 }
 
@@ -56,8 +59,11 @@ export const handler: Handler = async event => {
   }
 
   try {
+    const license = await activateLicense(input);
+
     return jsonResponse<Output>(200, {
-      signedLicense: await activateLicense(input),
+      license,
+      signedLicense: stringifyLicense(license),
     });
   } catch (e) {
     return jsonResponse(400, {
@@ -66,7 +72,7 @@ export const handler: Handler = async event => {
   }
 };
 
-async function activateLicense(input: Input): Promise<string> {
+async function activateLicense(input: Input): Promise<License> {
   const res = await fetch(`${env.GUMROAD_API}/licenses/verify`, {
     method: 'POST',
     body: new URLSearchParams({
@@ -79,7 +85,10 @@ async function activateLicense(input: Input): Promise<string> {
     throw new Error('Failed to verify license');
   }
 
-  const license: GumroadLicense = await res.json();
+  const gumroadLicense: GumroadLicense = await res.json();
 
-  return signLicense(license.purchase.license_key);
+  return {
+    ...signLicense(gumroadLicense),
+    isTrial: false,
+  };
 }
