@@ -1,16 +1,16 @@
 {
-  "name": "enjinn-license-server",
+  "name": "gumroad-license-server",
   "version": "1.0.0",
   "private": true,
-  "description": "License server for ENJINN",
+  "description": "License server for Gumroad products",
   "author": "SHAYDED <shayded@shayded.com> (http://shayded.com)",
-  "homepage": "https://github.com/rshea0/enjinn-license-server#readme",
+  "homepage": "https://github.com/rshea0/gumroad-license-server#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rshea0/enjinn-license-server.git"
+    "url": "https://github.com/rshea0/gumroad-license-server.git"
   },
   "bugs": {
-    "url": "https://github.com/rshea0/enjinn-license-server/issues"
+    "url": "https://github.com/rshea0/gumroad-license-server/issues"
   },
   "scripts": {
     "build": "node scripts/build.js"

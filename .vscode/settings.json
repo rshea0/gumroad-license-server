@@ -1,5 +1,8 @@
 {
   "files.exclude": {
     ".netlify": true
-  }
+  },
+  "cSpell.words": [
+    "SHAYDED"
+  ]
 }

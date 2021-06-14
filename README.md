@@ -1,1 +1,1 @@
-License server for [ENJINN](https://github.com/rshea0/enjinn#readme)
+License server for [tuneup PRIME](https://github.com/rshea0/tuneup PRIME#readme) and other [SHAYDED](http://shayded.com) software.

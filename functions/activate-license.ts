@@ -3,12 +3,13 @@ import Ajv, { JSONSchemaType } from 'ajv';
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
-import env from '../env.json';
+import { GUMROAD_API, PRODUCT_PERMALINKS } from '../lib/constants';
 import { signLicense, stringifyLicense } from '../lib/sign-license';
 import { License } from '../lib/types';
 import { jsonResponse } from '../lib/utils';
 
 interface Input {
+  productId: string;
   licenseKey: string;
 }
 
@@ -23,6 +24,7 @@ interface GumroadLicense {
   uses: number;
   purchase: {
     [name: string]: any;
+    product_id: string;
     license_key: string;
   };
 }
@@ -30,9 +32,10 @@ interface GumroadLicense {
 const INPUT_SCHEMA: JSONSchemaType<Input> = {
   type: 'object',
   properties: {
+    productId: { type: 'string' },
     licenseKey: { type: 'string' },
   },
-  required: ['licenseKey'],
+  required: ['productId', 'licenseKey'],
   additionalProperties: false,
 };
 
@@ -73,10 +76,15 @@ export const handler: Handler = async event => {
 };
 
 async function activateLicense(input: Input): Promise<License> {
-  const res = await fetch(`${env.GUMROAD_API}/licenses/verify`, {
+  const permalink = PRODUCT_PERMALINKS[input.productId];
+  if (!permalink) {
+    throw new Error(`Invalid product id ${input.productId}`);
+  }
+
+  const res = await fetch(`${GUMROAD_API}/licenses/verify`, {
     method: 'POST',
     body: new URLSearchParams({
-      product_permalink: env.GUMROAD_PRODUCT_ID,
+      product_permalink: permalink,
       license_key: input.licenseKey,
     }),
   });

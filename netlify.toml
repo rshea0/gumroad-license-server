@@ -1,9 +1,5 @@
 [build]
   command = "npm run build"
 
-[build.environment]
-  GUMROAD_API = "https://api.gumroad.com/v2"
-  GUMROAD_PRODUCT_ID = "enjinn"
-
 [functions]
   directory = "functions"
